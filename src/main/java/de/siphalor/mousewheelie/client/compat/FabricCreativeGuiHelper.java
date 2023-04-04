@@ -17,8 +17,8 @@
 
 package de.siphalor.mousewheelie.client.compat;
 
-import net.fabricmc.fabric.impl.item.group.CreativeGuiExtensions;
-import net.fabricmc.fabric.impl.item.group.FabricCreativeGuiComponents;
+import net.fabricmc.fabric.impl.client.itemgroup.CreativeGuiExtensions;
+import net.fabricmc.fabric.impl.client.itemgroup.FabricCreativeGuiComponents;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 
 public final class FabricCreativeGuiHelper {

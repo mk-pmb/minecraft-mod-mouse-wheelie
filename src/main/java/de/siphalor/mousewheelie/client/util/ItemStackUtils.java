@@ -58,8 +58,8 @@ public class ItemStackUtils {
 
 	private static int compareEqualItems3(ItemStack a, ItemStack b) {
 		// compare tooltips
-		Iterator<Text> tooltipsA = a.getTooltip(null, TooltipContext.Default.NORMAL).iterator();
-		Iterator<Text> tooltipsB = b.getTooltip(null, TooltipContext.Default.NORMAL).iterator();
+		Iterator<Text> tooltipsA = a.getTooltip(null, TooltipContext.Default.BASIC).iterator();
+		Iterator<Text> tooltipsB = b.getTooltip(null, TooltipContext.Default.BASIC).iterator();
 
 		while (tooltipsA.hasNext()) {
 			if (!tooltipsB.hasNext()) {
@@ -146,15 +146,18 @@ public class ItemStackUtils {
 
 	public static boolean areItemsOfSameKind(ItemStack stack1, ItemStack stack2, NbtMatchMode mode) {
 		switch (mode) {
-			case NONE:
-				return stack1.getItem() == stack2.getItem();
-			case ALL:
-				return ItemStack.areEqual(stack1, stack2);
-			case SOME:
-				if (!ItemStack.areItemsEqual(stack1, stack2)) {
-					return false;
-				}
-				return areTagsEqualExcept(stack1, stack2, "Damage", "Enchantments");
+		case NONE -> {
+			return stack1.getItem() == stack2.getItem();
+		}
+		case ALL -> {
+			return ItemStack.areEqual(stack1, stack2);
+		}
+		case SOME -> {
+			if (!ItemStack.areItemsEqual(stack1, stack2)) {
+				return false;
+			}
+			return areTagsEqualExcept(stack1, stack2, "Damage", "Enchantments");
+		}
 		}
 		return false; // unreachable
 	}

@@ -117,7 +117,7 @@ public class SlotRefiller {
 
 	static {
 		rules.add(new BlockRule());
-		rules.add(new ItemGroupRule());
+		// FIXME: rules.add(new ItemGroupRule());
 		rules.add(new ItemHierarchyRule());
 		rules.add(new BlockHierarchyRule());
 		rules.add(new FoodRule());
@@ -178,7 +178,7 @@ public class SlotRefiller {
 		}
 	}
 
-	public static class ItemGroupRule extends Rule {
+	/*public static class ItemGroupRule extends Rule {
 		@Override
 		boolean matches(ItemStack oldStack) {
 			return MWConfig.refill.rules.itemgroup && oldStack.getItem().getGroup() != null;
@@ -189,7 +189,7 @@ public class SlotRefiller {
 			ItemGroup group = oldStack.getItem().getGroup();
 			return iterateInventory(playerInventory, stack -> stack.getItem().getGroup() == group);
 		}
-	}
+	}*/
 
 	public static class ItemHierarchyRule extends Rule {
 		@Override
