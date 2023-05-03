@@ -1,0 +1,50 @@
+%YAML 1.1
+# ^-- ATTN: [2019-12-31] If you use a later version, Github will fail
+#     with a bogus error message "You have an error in your yaml syntax".
+# -*- coding: UTF-8, tab-width: 4 -*-
+---
+
+on:
+    push:
+        branches:
+          - 'build-**'
+          - 'debug-**'
+          - 'towards-**'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: 'Checkout repo files'
+            uses: actions/checkout@v3
+
+          - name: 'Set up JDK'
+            uses: actions/setup-java@v3
+            with:
+                distribution: 'temurin'
+                java-version: 17
+
+          - name: 'Set up gradle'
+            uses: gradle/gradle-build-action@v2
+            with:
+                generate-job-summary: false
+
+          - name: 'Build the mod (usually takes 3–5 minutes)'
+            run: 'chmod a+x -- gradlew && ./gradlew build'
+
+          - name: 'Unpack the relevant JAR (workaround for next step)'
+            run: 'bash .github/gha-repack.sh'
+            # ^-- Usually I'd use ./ notation but upstream seems to not
+            #     use +x attributes as per gradlew.
+            id: repack
+
+          - name: 'Upload JAR contents. This is where GitHub insists on ZIPping it.'
+            uses: actions/upload-artifact@v3
+            with:
+                name: '${{ steps.repack.outputs.jar_name }}-gha-${{ github.sha }}'
+                path: jar-unpacked
+                if-no-files-found: error
+                retention-days: 1 # Rather, re-upload them as a release.
+
+...
